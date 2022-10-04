@@ -41,19 +41,62 @@ public class Individual {
 	 * Hàm để tìm thứ tự của các domain dựa theo trọng số
 	 * Return: Một mảng hiển thị thứ tự của domain bắt đầu từ 0 đến domain thứ n
 	 */
-	public static void FindTheOrderOfDomain(Individual c) {
-		int d1Number = 0;
-		int[] orderNumber = new int [File.DOMAINS_NUM];
+	public static int[] FindTheOrderOfDomain(Individual c) {
+		int[] orderDomain = new int [File.DOMAINS_NUM];
+		int count = 1;
+		int startDomain = File.srcDomain;
+		int endDomain = File.desDomain;
 		
-		for(int i = 0; i < File.DOMAINS_NUM ; i++) {
-			int d2Number = i;
-			int priorityMin;
-			if(File.matrixDomainEdge[d1Number][d2Number] != 0) {
-				
+		int nextDomain = FindTheNextDomain(startDomain, c);
+		orderDomain[count] = nextDomain;
+		
+		while(nextDomain != endDomain) {
+			count++;
+			startDomain = nextDomain;
+			nextDomain = FindTheNextDomain(startDomain, c);
+			orderDomain[count] = nextDomain;
+		}
+		return orderDomain;
+	}
+	
+	/*
+	 * Hàm để tìm domain tiếp theo từ domain cho trước đối với cá thể c
+	 */
+	public static int FindTheNextDomain(int startDomain, Individual c) {
+		int nextDomain = startDomain;
+		int priority = File.DOMAINS_NUM;
+		for(int i = 0; i < File.DOMAINS_NUM; i++) {
+			int currentDomain = i;
+			if(File.matrixDomainEdge[startDomain][currentDomain]!= 0 && c.individual[currentDomain] < priority) {
+				priority = c.individual[currentDomain];
+				nextDomain = currentDomain;
 			}
 		}
+		return nextDomain;
+	}
+	
+	/*
+	 * Hàm có nhiệm vụ xây dựng một đồ thị G0 từ G bằng cách giữ lại toàn bộ đường đi trong các miền có đi qua
+	 * Và bổ sung thêm các đường dẫn liên miền theo đúng thứ tự miền sẽ đi qua
+	 */
+	public static void BuildGraph(int[] orderDomain) {
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
