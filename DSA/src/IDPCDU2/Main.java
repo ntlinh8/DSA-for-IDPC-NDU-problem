@@ -22,17 +22,17 @@ public class Main {
     
 
 	public static void main(String[] args) {
-//		//FileWriter();
-//		//for(int m = 0; m < arr.length; m++) {
-//			//String s = arr[m];
-//			String s = "idpc_ndu_502_12_10949";
-//			System.out.println("======================");
-//			System.out.println("File: " + s);
-//			//Giai doan tien xu ly file
-//			File f = new File();
-//			f.readFile(s);
-//			System.out.println("Done xu ly data");
-//			
+		//FileWriter();
+		//for(int m = 0; m < arr.length; m++) {
+			//String s = arr[m];
+			String s = "idpc_ndu_502_12_10949";
+			System.out.println("======================");
+			System.out.println("File: " + s);
+			//Giai doan tien xu ly file
+			File f = new File();
+			f.readFile(s);
+			System.out.println("Done xu ly data");
+			
 //			for(int k = 0; k < 30; k++) {
 //				//System.out.println("KHOI TAO QUAN THE");
 //				final long startTime = System.currentTimeMillis();
@@ -156,6 +156,7 @@ public class Main {
 		for(int i = 0; i < c.individual.length; i++) {
 			System.out.print(c.individual[i] +" ");
 		}
+
 		int[] list = Individual.FindTheOrderOfDomain(c);
 		System.out.println("I: ");
 		for(int i = 0; i < list.length; i++) {

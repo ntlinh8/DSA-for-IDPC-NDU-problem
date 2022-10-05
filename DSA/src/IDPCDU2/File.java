@@ -31,7 +31,7 @@ public class File {
         			NODES_NUM = Integer.parseInt(splitedString[0]);
         			matrixNodeEdge = new int [NODES_NUM+1][NODES_NUM+1];
         			DOMAINS_NUM = Integer.parseInt(splitedString[1]);
-        			matrixNodeEdge = new int [DOMAINS_NUM][DOMAINS_NUM];
+        			matrixDomainEdge = new int [DOMAINS_NUM][DOMAINS_NUM];
                     counter++;
                     line = bReader.readLine();
         		}
@@ -85,8 +85,8 @@ public class File {
         	int domainNumber1 = d1.nameDomain;
         	int[] nodeList1 = d1.nodeList;
         	
-        	for(int j = i+1; j < File.DOMAINS_NUM; j++) {
-        		Domain d2 = domainList.get(i);
+        	for(int j = 0; j < File.DOMAINS_NUM; j++) {
+        		Domain d2 = domainList.get(j);
         		int domainNumber2 = d2.nameDomain;
         		int[] nodeList2 = d2.nodeList;
         		
