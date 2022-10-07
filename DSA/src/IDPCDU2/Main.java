@@ -153,14 +153,11 @@ public class Main {
 //			
 		Individual c = new Individual();
 		System.out.print("I: ");
-		for(int i = 0; i < c.individual.length; i++) {
-			System.out.print(c.individual[i] +" ");
+		for(int i = 0; i < c.chromosome.length; i++) {
+			System.out.print(c.chromosome[i] +" ");
 		}
+		Individual.CalculateFiness(c);
 
-		int[] list = Individual.FindTheOrderOfDomain(c);
-		System.out.println("I: ");
-		for(int i = 0; i < list.length; i++) {
-			System.out.print(list[i] +" ");
-		}
+		System.out.print("fitness is: " + c.fitness);
 	}
 }
