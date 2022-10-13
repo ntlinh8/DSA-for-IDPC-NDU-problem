@@ -13,14 +13,14 @@ import javax.swing.text.Document;
 import IDPCDU2.File;
 
 public class Individual {
-	public int[] chromosome;		//Mảng thể hiện độ ưu tiên của miền. VD: I = [0, 2, 1, 3, 4] thì 2 là độ ưu tiền của domain d1.
+	public double[] chromosome;		//Mảng thể hiện độ ưu tiên của miền. VD: I = [0, 2, 1, 3, 4] thì 2 là độ ưu tiền của domain d1.
 	public int fitness;
 	//public int[][] g0;
 	public static Random random = new Random();
-	public static int loopNumber = File.DOMAINS_NUM*2;
+	public static int loopNumber = File.DOMAINS_NUM;
 	
 	public Individual() {
-		this.chromosome = new int [File.DOMAINS_NUM];
+		this.chromosome = new double [File.DOMAINS_NUM];
 		//this.g0 = new int [File.NODES_NUM+1][File.NODES_NUM+1];
 		
 		for(int i = 0; i < this.chromosome.length; i++) {
@@ -33,7 +33,7 @@ public class Individual {
 				while(p1 == p2) {
 					p2 = random.nextInt(0, this.chromosome.length);
 				}
-				int temp = this.chromosome[p1];
+				double temp = this.chromosome[p1];
 				this.chromosome[p1] = this.chromosome[p2];
 				this.chromosome[p2] = temp;
 			}
@@ -65,10 +65,10 @@ public class Individual {
 			}
 			startDomain = nextDomain;
 		}
-		System.out.println("order domain: ");
-		for(int i = 0; i < orderDomain.length; i++) {
-			System.out.print(orderDomain[i] +" ");
-		}
+//		System.out.println("order domain: ");
+//		for(int i = 0; i < orderDomain.length; i++) {
+//			System.out.print(orderDomain[i] +" ");
+//		}
 		return orderDomain;
 	}
 	
@@ -77,7 +77,7 @@ public class Individual {
 	 */
 	public static int FindTheNextDomain(int startDomain, Individual c, int [] orderDomain) {
 		int nextDomain = startDomain;
-		int priority = File.DOMAINS_NUM;
+		double priority = File.DOMAINS_NUM;
 		for(int i = 0; i < File.DOMAINS_NUM; i++) {
 			int currentDomain = i;
 			if(File.matrixDomainEdge[startDomain][currentDomain]!= 0 && c.chromosome[currentDomain] < priority && domainIsTraversed(currentDomain, orderDomain) == false) {
@@ -123,7 +123,7 @@ public class Individual {
 	 */
 	public static int[][] BuildGraph(int[] orderDomain) {
 		int [][] g0 = new int [File.NODES_NUM +1][File.NODES_NUM + 1];
-		for(int i = 0; i < orderDomain.length; i++) {
+		for(int i = 0; i < orderDomain.length-1; i++) {
 			if(orderDomain[i] == File.desDomain) {
 				break;
 			}else {
@@ -198,15 +198,19 @@ public class Individual {
 		int[] fitnessList = Individual.ArrayInitialization();
 		int currentNode;
 		int[] nodeTraveledList = new int [File.NODES_NUM+1];
-		
 		do {
 			currentNode = Individual.FindTheNearestNode(fitnessList, nodeTraveledList);
-			//System.out.println("Current Node is: " + currentNode);
-			fitnessList = Individual.FindNeighboringNode(g0, fitnessList, currentNode);
-			System.out.println("NodeList is: " + currentNode);
-			for(int i = 0; i < fitnessList.length; i++) {
-				System.out.print(fitnessList[i] + " ");
+			if(currentNode == Integer.MAX_VALUE) {
+				fitness = fitnessList[endNode];
+				return fitness;	
 			}
+			nodeTraveledList[currentNode] = 1;
+//			System.out.println("Current Node is: " + currentNode);
+			fitnessList = Individual.FindNeighboringNode(g0, fitnessList, currentNode, nodeTraveledList);
+//			System.out.println("NodeList is: " + currentNode);
+//			for(int i = 0; i < fitnessList.length; i++) {
+//				System.out.print(fitnessList[i] + " ");
+//			}
 			// System.out.println("while loop");
 		}while(currentNode != endNode);
 		
@@ -238,16 +242,15 @@ public class Individual {
 	 */
 	public static int FindTheNearestNode(int[] fitnessList, int[] nodeTraveledList) {
 		int minNode = Integer.MAX_VALUE;
-		int node = File.SRC;
+		int node = Integer.MAX_VALUE;
 		for(int i = 0; i < fitnessList.length; i++) {
 			int value = fitnessList[i];
-			if(value != 0) {
+//			if(value != 0) {
 				if(value < minNode && nodeTraveledList[i] != 1) {
 					minNode = value;
 					node = i;
-					nodeTraveledList[i] = 1;
 				}
-			}
+//			}
 			
 		}
 		return node;
@@ -258,13 +261,13 @@ public class Individual {
 	 * Tìm các node lân cận node hiện tại và cập nhật fitness đến các nốt đó
 	 * Đầu ra là mảng fitnessList sau khi đã được cập nhật giá trị của các node
 	 */
-	public static int[] FindNeighboringNode(int [][] g0, int [] fitnessList, int currentNode) {
+	public static int[] FindNeighboringNode(int [][] g0, int [] fitnessList, int currentNode, int[] nodeTraveledList) {
 		for(int i = 0; i < File.NODES_NUM+1; i++) {
 			int value = g0[currentNode][i];
 			if(value != 0) {
 				int neighborNode = i;
 				int fitness = value + fitnessList[currentNode];
-				if(fitness < fitnessList[neighborNode] && neighborNode != File.SRC) {
+				if(fitness < fitnessList[neighborNode] && nodeTraveledList[neighborNode] != 1) {
 					fitnessList[neighborNode] = fitness;
 				}
 			}

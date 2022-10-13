@@ -23,6 +23,7 @@ public class File {
         
         try  {
         	bReader = new BufferedReader(new FileReader("C:\\Users\\GDCV\\Documents\\git\\DSA-IDPCNDU\\DSA\\src\\IDPCDU2\\testdata\\" + s + ".txt"));
+        	//bReader = new BufferedReader(new FileReader("/Users/admin/IDPCNDU/DSA/src/IDPCDU2/" + s + ".txt"));
         	String line = bReader.readLine();
         	
         	while(line != null){
