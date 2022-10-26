@@ -8,7 +8,7 @@ public class Main {
 	
     //public static int LowestCost = 99999, time;
     public static int popSize = 100;
-	public static int timerNumber = 30;
+	public static int timerNumber = 10;
 	
 	public static int REITERATE_TIME = 500;
 	public static int xmin = 0, xmax; //range
@@ -20,7 +20,7 @@ public class Main {
     
 
 	public static void main(String[] args) {
-			String s = "idpc_ndu_402_22_8220";
+			String s = "idpc_ndu_1002_12_82252";
 			System.out.println("======================");
 			System.out.println("File: " + s);
 			//Giai doan tien xu ly file
