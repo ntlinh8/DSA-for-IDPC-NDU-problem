@@ -1,10 +1,11 @@
 package NEW;
+
 import java.util.Random;
 
 public class Main {
     public static final int pop_size = 100;
-    public static final int number_seed = 30;
-    public static final int MAX_GENERATION = 500;
+    public static final int number_seed = 10;
+    public static final int MAX_GENERATION = 250;
     public static int[] bestValue;  // Mang ghi lai gia tri fitness tot nhat sau moi lan chay
     public static double P = 0.5, FP = 0.618, CF1, CF2, KF1, KF2;
 	public static int cf1 = 0, cf2 = 0, kf1 = 0, kf2 = 0;
@@ -13,7 +14,7 @@ public class Main {
     public static Random random = new Random();
 
     public static void main(String[] args) {
-        String path = "C:\\Users\\GDCV\\Documents\\git\\DSA-IDPCNDU\\DSA\\src\\NEW\\idpc_ndu_502_12_10949.txt";
+        String path = "C:\\Users\\GDCV\\Downloads\\Template IDPC NDU\\src\\idpc_ndu_502_12_10949.txt";
         System.out.println("======================");
         System.out.println("File: " + path);
         long[] timeList = new long[number_seed];
