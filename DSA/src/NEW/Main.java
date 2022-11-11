@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Main {
     public static final int pop_size = 100;
-    public static final int number_seed = 10;
+    public static final int number_seed = 3;
     public static final int MAX_GENERATION = 250;
     public static int[] bestValue;  // Mang ghi lai gia tri fitness tot nhat sau moi lan chay
     public static double P = 0.5, FP = 0.618, CF1, CF2, KF1, KF2;
@@ -14,9 +14,10 @@ public class Main {
     public static Random random = new Random();
 
     public static void main(String[] args) {
-        String path = "C:\\Users\\GDCV\\Downloads\\Template IDPC NDU\\src\\idpc_ndu_502_12_10949.txt";
+    	String s = "idpc_ndu_1506_9_130556";
+        String path = "C:\\Users\\GDCV\\Documents\\git\\DSA-IDPCNDU\\DSA\\src\\IDPCDU2\\testdata\\" + s + ".txt";
         System.out.println("======================");
-        System.out.println("File: " + path);
+        System.out.println("File: " + s);
         long[] timeList = new long[number_seed];
         Graph graph = new Graph(path);
         Individual.setGraph(graph);
@@ -82,10 +83,10 @@ public class Main {
 					population.ListIndividual[j] = new Individual(c);
 					Population.UpdatePopulation(population);
 				}
-//				System.out.println("Best Fitness lan " + timer + "-" + i + " la: " + p.bestFitness);
+				System.out.println("Best Fitness lan la: " + population.Xleader.fitness);
             }
             bestValue[i] = population.Xleader.fitness;
-            System.out.println("Best Fitness lan: " + i +" la: " + bestValue[i]);
+            System.out.println("Lan: " + i +" la: " + bestValue[i]);
 			final long endTime = System.currentTimeMillis();
 			timeList[i] = endTime - startTime;
 //            
