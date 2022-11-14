@@ -19,10 +19,10 @@ public class Population {
     }
     
     public static void UpdatePopulation(Population p) {
-		for(int i = 0; i < p.pop_size; i++) {
-			Individual c = p.ListIndividual[i];
-			c.graph.calculateFitness(c.chromosome);
-		}
+//		for(int i = 0; i < p.pop_size; i++) {
+//			Individual c = p.ListIndividual[i];
+//			c.graph.calculateFitness(c.chromosome);
+//		}
 		FindXLeader(p);
 	}
     

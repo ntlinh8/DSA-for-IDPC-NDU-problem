@@ -4,18 +4,19 @@ import java.util.Random;
 
 public class Main {
     public static final int pop_size = 100;
-    public static final int number_seed = 3;
+    public static final int number_seed = 10;
     public static final int MAX_GENERATION = 250;
     public static int[] bestValue;  // Mang ghi lai gia tri fitness tot nhat sau moi lan chay
     public static double P = 0.5, FP = 0.618, CF1, CF2, KF1, KF2;
 	public static int cf1 = 0, cf2 = 0, kf1 = 0, kf2 = 0;
 	public static int iterTimes = 10000;
 	public static double K, Miu;
+	public static int targetFitness = 37;
     public static Random random = new Random();
 
     public static void main(String[] args) {
-    	String s = "idpc_ndu_1506_9_130556";
-        String path = "C:\\Users\\GDCV\\Documents\\git\\DSA-IDPCNDU\\DSA\\src\\IDPCDU2\\testdata\\" + s + ".txt";
+    	String s = "idpc_ndu_2002_17_128021";
+        String path = "C:\\Users\\GDCV\\Documents\\git\\DSA-IDPCNDU\\DSA\\src\\testdata\\" + s + ".txt";
         System.out.println("======================");
         System.out.println("File: " + s);
         long[] timeList = new long[number_seed];
@@ -80,10 +81,15 @@ public class Main {
 						c.chromosome = CalculateIndividual(1.0, c.chromosome, "+", 1.0, chro3);
 					}
 					c.graph.calculateFitness(c.chromosome);
+					
 					population.ListIndividual[j] = new Individual(c);
 					Population.UpdatePopulation(population);
 				}
-				System.out.println("Best Fitness lan la: " + population.Xleader.fitness);
+				System.out.println("Best Fitness lan " + k + " la: " + population.Xleader.fitness);
+				
+				if (population.Xleader.fitness == targetFitness) {
+					break;
+				}
             }
             bestValue[i] = population.Xleader.fitness;
             System.out.println("Lan: " + i +" la: " + bestValue[i]);
