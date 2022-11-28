@@ -4,17 +4,17 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class Graph {
-    public static int n;   // n : số đỉnh
-    public static int d;    // d : số miền
+    public int n;   // n : số đỉnh
+    public int d;    // d : số miền
     public int[][] weight;   //   ma tran trọng số
-    public static int startNode;  // Dinh bat dau
-    public static int endNode;   // Dinh ket thuc
-    public static int startDomain;  // Mien bat dau
-    public static int endDomain; // Mien ket thuc
+    public int startNode;  // Dinh bat dau
+    public int endNode;   // Dinh ket thuc
+    public int startDomain;  // Mien bat dau
+    public int endDomain; // Mien ket thuc
     public ArrayList<int[]> listDomain;  //  Danh sách các đỉnh thuộc miền tương ứng
     public int[] domainOfNode;  // domainOfNode[i] = j neu dinh i thuoc mien j
     public int[][] isConnectDomain;
-    public static int best_finess = Integer.MAX_VALUE;
+    public int best_finess = Integer.MAX_VALUE;
 
     public Graph (String path) {   //  path : Duong dan file
         BufferedReader bReader;
@@ -112,7 +112,7 @@ public class Graph {
     }
 
     public int[] findOrderDomain (double[] chromosome) {
-    	int[] orderDomain = new int[Graph.d];
+    	int[] orderDomain = new int[this.d];
 		int startD = this.startDomain;
 		int endD = this.endDomain;
 		int nextDomain= FindTheNextDomain(startD, chromosome, orderDomain);
