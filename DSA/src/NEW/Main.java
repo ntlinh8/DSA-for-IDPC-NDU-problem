@@ -8,15 +8,15 @@ import java.io.File;
 
 public class Main {
     public static final int pop_size = 100;
-    public static final int number_seed = 1;
-    public static final int MAX_GENERATION = 50;
+    public static final int number_seed = 30;
+    public static final int MAX_GENERATION = 250;
     public static int[] bestValue;  // Mang ghi lai gia tri fitness tot nhat sau moi lan chay
-    public static double P = 0.5, FP = 0.618, CF1, CF2, KF1, KF2, omega;
-	public static int cf1 = 0, cf2 = 0, kf1 = 0, kf2 = 0, transferPoint = 0;
+    public static double P = 0.5, FP = 0.618, CF1, CF2, KF1, KF2, omega, gama;
+	public static int cf1 = 0, cf2 = 0, kf1 = 0, kf2 = 0, transferPoint = 0, tranferNumber = 0;
 	public static double K, Miu;
 	public static String task1Path, task2Path;
     public static Random random = new Random();
-    public static int targetFitness = 1;
+//    public static int targetFitness = 1;
     public static int taskCoupleNumber = 6;
     public static Graph graph1, graph2;
 
@@ -54,8 +54,10 @@ public class Main {
 			DSA_Algorithm(population2, k);
 			
 			if(k == transferPoint) {
-				omega = pop_size*0.1*(1-(k/MAX_GENERATION));
-				TransferBetweenTwoPopulation((int) Math.round(omega), population1.ListIndividual, population2.ListIndividual);
+				gama = k/MAX_GENERATION;
+				omega = pop_size*0.3*(1-gama);
+				tranferNumber = (int) Math.round(omega) + 25;
+				TransferBetweenTwoPopulation(tranferNumber, population1.ListIndividual, population2.ListIndividual);
     			transferPoint += (int) Math.round(omega);
 			}
 			
@@ -63,39 +65,6 @@ public class Main {
         
         System.out.println("file 1 " + population1.Xleader.fitness);
         System.out.println("file 2 " + population2.Xleader.fitness);
-        
-        
-//    	String s = "idpc_ndu_2602_19_185818";
-//        String path = "C:\\Users\\GDCV\\Documents\\git\\DSA-IDPCNDU\\DSA\\src\\testdata\\" + s + ".txt";
-//        System.out.println("======================");
-//        System.out.println("File: " + s);
-//        long[] timeList = new long[number_seed];
-//        Graph graph = new Graph(path);
-//        Individual.setGraph(graph);
-//        bestValue = new int[number_seed];
-//        
-//        for (int i = 0; i< number_seed; i++) {
-//            Population population = new Population(pop_size);
-//            Graph.best_finess = population.Xleader.fitness;
-//            final long startTime = System.currentTimeMillis();
-//            
-//            for (int k = 0; k< MAX_GENERATION; k++) {
-//            	DSA_Algorithm(population, k);
-//				if (population.Xleader.fitness == targetFitness) {
-//					break;
-//				}
-//            }
-//            
-//            bestValue[i] = population.Xleader.fitness;
-//            System.out.println("Lan: " + i +" la: " + bestValue[i]);
-//			final long endTime = System.currentTimeMillis();
-//			timeList[i] = endTime - startTime;
-//           
-//        }
-//        System.out.println("==============");
-//		System.out.println("Average Fitness = " + CalculateAverageIntList(bestValue));
-//		System.out.println("Best Fitness = " + FindMinItem(bestValue));
-//		System.out.println("Average Time = " + CalculateAverageLongList(timeList));
     }
     
     public static void DSA_Algorithm(Population population, int generationNumber) {
@@ -249,30 +218,32 @@ public class Main {
 			SubIndividualList1[i] = new Individual(individualList1[i]);
 			SubIndividualList2[i] = new Individual(individualList2[i]);
 		}
-		/*
-		 * Can be execute crossover or mutation here
-		 */
 		
 		BringToTheCommonSpace(SubIndividualList1, SubIndividualList2);
 		
 		if (graph1.d > graph2.d) {
 			for(int i = 0; i < transferNumber; i++) {
-				individualList1[pop_size-transferNumber].chromosome = SubIndividualList2[i].chromosome;
+				Crossover(graph1.d , individualList1[pop_size-transferNumber].chromosome, SubIndividualList2[i].chromosome);
 			}
 			ReturnToTheOldSpace(SubIndividualList1, graph2.d);
 			for(int i = 0; i < transferNumber; i++) {
-				individualList2[pop_size-transferNumber].chromosome = SubIndividualList1[i].chromosome;
+				Crossover(graph2.d , individualList2[pop_size-transferNumber].chromosome, SubIndividualList1[i].chromosome);
 			}
 		}else{
 			for(int i = 0; i < transferNumber; i++) {
-				individualList2[pop_size-transferNumber].chromosome = SubIndividualList1[i].chromosome;
+				Crossover(graph2.d , individualList2[pop_size-transferNumber].chromosome, SubIndividualList1[i].chromosome);
 			}
 			ReturnToTheOldSpace(SubIndividualList2, graph2.d);
 			for(int i = 0; i < transferNumber; i++) {
 				individualList1[pop_size-transferNumber].chromosome = SubIndividualList2[i].chromosome;
+				Crossover(graph1.d , individualList1[pop_size-transferNumber].chromosome, SubIndividualList2[i].chromosome);
 			}
 		}
 		
+	}
+	
+	public static void Crossover(int totalDomainNumber, double[] chromosome1, double[] chromosome2) {
+		chromosome1 = CalculateIndividual(totalDomainNumber, 1.0, chromosome1, "+", gama , chromosome2);
 	}
 	
 	public static void BringToTheCommonSpace(Individual[] individualList1, Individual[] individualList2) {
