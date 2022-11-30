@@ -8,7 +8,7 @@ import java.io.File;
 
 public class Main {
     public static final int pop_size = 100;
-    public static final int number_seed = 30;
+    public static final int number_seed = 10;
     public static final int MAX_GENERATION = 250;
     public static int[] bestValue;  // Mang ghi lai gia tri fitness tot nhat sau moi lan chay
     public static double P = 0.5, FP = 0.618, CF1, CF2, KF1, KF2, omega, gama;
@@ -17,7 +17,7 @@ public class Main {
 	public static String task1Path, task2Path;
     public static Random random = new Random();
 //    public static int targetFitness = 1;
-    public static int taskCoupleNumber = 6;
+    public static int taskCoupleNumber = 1;
     public static Graph graph1, graph2;
 
     public static void main(String[] args) {
@@ -35,36 +35,40 @@ public class Main {
         graph1 = new Graph(path1);
         graph2 = new Graph(path2);
         
-        //Initialize the population and calculate the best fitness
-        Population population1 = new Population(pop_size, graph1);
-        graph1.best_finess = population1.Xleader.fitness;
-        Population population2 = new Population(pop_size, graph2);
-        graph2.best_finess = population2.Xleader.fitness;
-        
-        for (int k = 0; k< MAX_GENERATION; k++) {
-        	//Prepare the variable
-        	K = Math.sin(2*random.nextDouble())+ 1;
-    		Miu = K*(1-(k/MAX_GENERATION));
-    		CF1 = 1/FP*(random.nextDouble(0, 1));
-    		CF2 = 1/FP*(random.nextDouble(0, 1));
-    		KF1 = 1/FP*(random.nextDouble(0, 1));
-    		KF2 = 1/FP*(random.nextDouble(0, 1));
-    		
-        	DSA_Algorithm(population1, k);
-			DSA_Algorithm(population2, k);
-			
-			if(k == transferPoint) {
-				gama = k/MAX_GENERATION;
-				omega = pop_size*0.3*(1-gama);
-				tranferNumber = (int) Math.round(omega) + 25;
-				TransferBetweenTwoPopulation(tranferNumber, population1.ListIndividual, population2.ListIndividual);
-    			transferPoint += (int) Math.round(omega);
-			}
-			
+        for(int j = 0; j < number_seed; j++) {
+        	//Initialize the population and calculate the best fitness
+            Population population1 = new Population(pop_size, graph1);
+            graph1.best_finess = population1.Xleader.fitness;
+            Population population2 = new Population(pop_size, graph2);
+            graph2.best_finess = population2.Xleader.fitness;
+            
+            for (int k = 0; k< MAX_GENERATION; k++) {
+            	//Prepare the variable
+            	K = Math.sin(2*random.nextDouble())+ 1;
+        		Miu = K*(1-(k/MAX_GENERATION));
+        		CF1 = 1/FP*(random.nextDouble(0, 1));
+        		CF2 = 1/FP*(random.nextDouble(0, 1));
+        		KF1 = 1/FP*(random.nextDouble(0, 1));
+        		KF2 = 1/FP*(random.nextDouble(0, 1));
+        		
+            	DSA_Algorithm(population1, k);
+    			DSA_Algorithm(population2, k);
+    			
+    			if(k == transferPoint) {
+    				gama = k/MAX_GENERATION;
+    				omega = pop_size*0.3*(1-gama);
+    				tranferNumber = (int) Math.round(omega) + 25;
+    				TransferBetweenTwoPopulation(tranferNumber, population1.ListIndividual, population2.ListIndividual);
+        			transferPoint += (int) Math.round(omega);
+    			}
+    			
+            }
+            System.out.println("Lan" + j);
+            System.out.println("file 1 " + population1.Xleader.fitness);
+            System.out.println("file 2 " + population2.Xleader.fitness);
         }
         
-        System.out.println("file 1 " + population1.Xleader.fitness);
-        System.out.println("file 2 " + population2.Xleader.fitness);
+        
     }
     
     public static void DSA_Algorithm(Population population, int generationNumber) {
@@ -72,7 +76,7 @@ public class Main {
 		Exploration(population);
 		//Exploitation phase
 		Exploitation(population);
-		//System.out.println("Best Fitness lan " + generationNumber + " la: " + population.Xleader.fitness);
+//		System.out.println("Best Fitness lan " + generationNumber + " la: " + population.Xleader.fitness);
     }
     
     
